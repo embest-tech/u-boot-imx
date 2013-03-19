@@ -129,11 +129,12 @@
 		"bootcmd_net=dhcp; run bootargs_base bootargs_nfs;bootm\0" \
 		"bootargs_mmc0=setenv bootargs ${bootargs} " \
 			"root=/dev/mmcblk0p1 rootwait rw " \
-			"video=mxcfb0:dev=ldb,LDB-XGA,if=RGB666 " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
+			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 		"bootargs_mmc1=setenv bootargs ${bootargs} " \
 			"root=/dev/mmcblk1p1 rootwait rw " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
+			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 		"bootcmd_mmc0=run bootargs_base bootargs_mmc0;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
 		"bootcmd_mmc1=run bootargs_base bootargs_mmc1;mmc dev 1;" \
