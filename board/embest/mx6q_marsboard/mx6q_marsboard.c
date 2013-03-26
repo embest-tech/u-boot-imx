@@ -631,6 +631,13 @@ int mx6_rgmii_rework(char *devname, int phy_addr)
         ret = phy_read(devname, phy_addr, 0x1e, &val);
         val |= 0x0100;
         ret = phy_write(devname, phy_addr, 0x1e, val);
+
+        /* rgmii gtx clock delay */
+        ret = phy_write(devname, phy_addr, 0x1d, 0xb);
+        ret = phy_read(devname, phy_addr, 0x1e, &val);
+        val &= ~0x60;
+        val |= 0x20;
+        ret = phy_write(devname, phy_addr, 0x1e, val);
         /******************************************************/
 
         /*check phy power*/
@@ -671,7 +678,7 @@ void enet_board_init(void)
 
 int checkboard(void)
 {
-	printf("Board: MX6Q-SABRELITE:[ ");
+	printf("Board: MX6Q-MARSBOARD:[ ");
 
 	switch (__REG(SRC_BASE_ADDR + 0x8)) {
 	case 0x0001:

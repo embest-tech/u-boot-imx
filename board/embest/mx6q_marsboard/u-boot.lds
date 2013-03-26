@@ -38,9 +38,9 @@ SECTIONS
 	{
 	  /* WARNING - the following is hand-optimized to fit within	*/
 	  /* the sector layout of our flash chips!	XXX FIXME XXX	*/
-	  board/embest/mx6dl_marsboard/flash_header.o	(.text.flasheader)
+	  board/embest/mx6q_marsboard/flash_header.o	(.text.flasheader)
 	  cpu/arm_cortexa8/start.o
-	  board/embest/mx6dl_marsboard/libmx6dl_marsboard.a	(.text)
+	  board/embest/mx6q_marsboard/libmx6q_marsboard.a	(.text)
 	  lib_arm/libarm.a		(.text)
 	  net/libnet.a			(.text)
 	  drivers/mtd/libmtd.a		(.text)

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2011-2012 Freescale Semiconductor, Inc.
+ * Copyright (C) 2012-2013 Embest Tech, Inc.
  *
- * Configuration settings for the MX6Q SABRE-Lite Freescale board.
+ * Configuration settings for the MX6Q Marsboard.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@
 #define CONFIG_ARMV7	/* This is armv7 Cortex-A9 CPU core */
 #define CONFIG_MXC
 #define CONFIG_MX6Q
-#define CONFIG_MX6Q_SABRELITE
+#define CONFIG_MX6Q_MARSBOARD
 #define CONFIG_FLASH_HEADER
 #define CONFIG_FLASH_HEADER_OFFSET 0x400
 #define CONFIG_MX6_CLK32	   32768
@@ -81,7 +81,7 @@
 #define CONFIG_FASTBOOT_PRODUCT_ID     0xd02
 #define CONFIG_FASTBOOT_BCD_DEVICE     0x311
 #define CONFIG_FASTBOOT_MANUFACTURER_STR  "Freescale"
-#define CONFIG_FASTBOOT_PRODUCT_NAME_STR "i.mx6q sabrelite"
+#define CONFIG_FASTBOOT_PRODUCT_NAME_STR "i.mx6q marsboard"
 #define CONFIG_FASTBOOT_INTERFACE_STR	 "Android fastboot"
 #define CONFIG_FASTBOOT_CONFIGURATION_STR  "Android fastboot"
 #define CONFIG_FASTBOOT_SERIAL_NUM	"12345"
@@ -147,6 +147,8 @@
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 		"netdev=eth0\0"						\
 		"ethprime=FEC0\0"					\
+		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
+                        "echo restored environment to factory default\0" \
 		"bootargs=console=ttymxc1,115200 init=/init rw video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 fbmem=10M vmalloc=400M androidboot.console=ttymxc1\0" 								     \
 		"bootcmd=booti mmc1\0"
 #define CONFIG_ARP_TIMEOUT	200UL
@@ -155,7 +157,7 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_PROMPT		"MX6Q SABRELITE U-Boot > "
+#define CONFIG_SYS_PROMPT		"MX6Q MARSBOARD U-Boot > "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
 /* Print Buffer Size */

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2011-2012 Freescale Semiconductor, Inc.
+ * Copyright (C) 2012-2013 Embest Tech, Inc.
  *
- * Configuration settings for the MX6Q SABRE-Lite Freescale board.
+ * Configuration settings for the MX6Q Marsboard.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@
 #define CONFIG_ARMV7	/* This is armv7 Cortex-A9 CPU core */
 #define CONFIG_MXC
 #define CONFIG_MX6Q
-#define CONFIG_MX6Q_SABRELITE
+#define CONFIG_MX6Q_MARSBOARD
 #define CONFIG_FLASH_HEADER
 #define CONFIG_FLASH_HEADER_OFFSET 0x400
 #define CONFIG_MX6_CLK32	   32768
@@ -124,23 +124,21 @@
 		"bootargs_base=setenv bootargs console=ttymxc1,115200\0" \
 		"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs " \
 			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp " \
-			"video=mxcfb0:dev=ldb,LDB-XGA,if=RGB666 " \
+			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 " \
 			"enable_wait_mode=off\0" \
 		"bootcmd_net=dhcp; run bootargs_base bootargs_nfs;bootm\0" \
 		"bootargs_mmc0=setenv bootargs ${bootargs} " \
 			"root=/dev/mmcblk0p1 rootwait rw " \
-			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
-			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 		"bootargs_mmc1=setenv bootargs ${bootargs} " \
 			"root=/dev/mmcblk1p1 rootwait rw " \
-			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
-			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 		"bootcmd_mmc0=run bootargs_base bootargs_mmc0;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
 		"bootcmd_mmc1=run bootargs_base bootargs_mmc1;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
 		"bootcmd=if mmc dev 0; then run bootcmd_mmc1; else run bootcmd_mmc0; fi\0" \
-		"clearenv=sf probe 1 && sf erase 0xc0000 0x2000 && " \
+		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
 			"echo restored environment to factory default\0" \
 		"upgradeu=for disk in 0 1 ; do mmc dev ${disk} ;" \
 				"for fs in fat ext2 ; do " \
@@ -159,7 +157,7 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_PROMPT		"MX6Q SABRELITE U-Boot > "
+#define CONFIG_SYS_PROMPT		"MX6Q MARSBOARD U-Boot > "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
 /* Print Buffer Size */

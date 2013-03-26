@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2011-2012 Freescale Semiconductor, Inc.
+ * Copyright (C) 2012-2013 Embest Tech, Inc.
  *
- * Configuration settings for the MX6Q SABRE-Lite Freescale board.
+ * Configuration settings for the MX6Q Marsboard.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@
 #define CONFIG_ARMV7	/* This is armv7 Cortex-A9 CPU core */
 #define CONFIG_MXC
 #define CONFIG_MX6Q
-#define CONFIG_MX6Q_SABRELITE
+#define CONFIG_MX6Q_MARSBOARD
 #define CONFIG_FLASH_HEADER
 #define CONFIG_FLASH_HEADER_OFFSET 0x400
 #define CONFIG_MX6_CLK32	   32768
@@ -72,35 +72,6 @@
 #define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{9600, 19200, 38400, 57600, 115200}
 
-/* Android related config */
-#define CONFIG_USB_DEVICE
-#define CONFIG_IMX_UDC		       1
-#define CONFIG_FASTBOOT		       1
-#define CONFIG_FASTBOOT_STORAGE_EMMC_SATA
-#define CONFIG_FASTBOOT_VENDOR_ID      0x18d1
-#define CONFIG_FASTBOOT_PRODUCT_ID     0xd02
-#define CONFIG_FASTBOOT_BCD_DEVICE     0x311
-#define CONFIG_FASTBOOT_MANUFACTURER_STR  "Freescale"
-#define CONFIG_FASTBOOT_PRODUCT_NAME_STR "i.mx6q sabrelite"
-#define CONFIG_FASTBOOT_INTERFACE_STR	 "Android fastboot"
-#define CONFIG_FASTBOOT_CONFIGURATION_STR  "Android fastboot"
-#define CONFIG_FASTBOOT_SERIAL_NUM	"12345"
-#define CONFIG_FASTBOOT_SATA_NO		 0
-#define CONFIG_FASTBOOT_TRANSFER_BUF	0x30000000
-#define CONFIG_FASTBOOT_TRANSFER_BUF_SIZE 0x10000000 /* 256M byte */
-
-#define CONFIG_CMD_BOOTI
-#define CONFIG_ANDROID_RECOVERY
-#define CONFIG_ANDROID_BOOT_PARTITION_MMC 1
-#define CONFIG_ANDROID_SYSTEM_PARTITION_MMC 5
-#define CONFIG_ANDROID_RECOVERY_PARTITION_MMC 2
-#define CONFIG_ANDROID_CACHE_PARTITION_MMC 6
-
-#define CONFIG_ANDROID_RECOVERY_BOOTARGS_MMC NULL
-#define CONFIG_ANDROID_RECOVERY_BOOTCMD_MMC  \
-	"booti mmc1 recovery"
-#define CONFIG_ANDROID_RECOVERY_CMD_FILE "/recovery/command"
-
 /***********************************************************
  * Command definition
  ***********************************************************/
@@ -126,6 +97,7 @@
 #define CONFIG_CMD_MMC
 #define CONFIG_CMD_SF
 #define CONFIG_CMD_ENV
+#define CONFIG_CMD_REGUL
 
 #define CONFIG_CMD_CLOCK
 #define CONFIG_REF_CLK_FREQ CONFIG_MX6_HCLK_FREQ
@@ -140,22 +112,54 @@
 #define CONFIG_PRIME	"FEC0"
 
 #define CONFIG_LOADADDR		0x10800000	/* loadaddr env var */
-#define CONFIG_RD_LOADADDR	0x11000000
+#define CONFIG_RD_LOADADDR      0x11000000
 
-#define CONFIG_INITRD_TAG
+#define	CONFIG_EXTRA_ENV_SETTINGS \
+		"netdev=eth0\0" \
+		"ethprime=FEC0\0" \
+		"ethaddr=00:01:02:03:04:05\0" \
+		"uboot=u-boot.bin\0" \
+		"kernel=uImage\0" \
+		"bootargs=console=ttymxc1,115200\0" \
+		"bootargs_base=setenv bootargs console=ttymxc1,115200\0" \
+		"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs " \
+			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp " \
+			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 " \
+			"enable_wait_mode=off\0" \
+		"bootcmd_net=dhcp; run bootargs_base bootargs_nfs;bootm\0" \
+		"bootargs_mmc0=setenv bootargs ${bootargs} " \
+			"root=/dev/mmcblk0p1 rootwait rw " \
+			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
+			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+		"bootargs_mmc1=setenv bootargs ${bootargs} " \
+			"root=/dev/mmcblk1p1 rootwait rw " \
+			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
+			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+		"bootcmd_mmc0=run bootargs_base bootargs_mmc0;mmc dev 1;" \
+			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
+		"bootcmd_mmc1=run bootargs_base bootargs_mmc1;mmc dev 1;" \
+			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
+		"bootcmd=if mmc dev 0; then run bootcmd_mmc1; else run bootcmd_mmc0; fi\0" \
+		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
+			"echo restored environment to factory default\0" \
+		"upgradeu=for disk in 0 1 ; do mmc dev ${disk} ;" \
+				"for fs in fat ext2 ; do " \
+					"${fs}load mmc ${disk}:1 10008000 " \
+						"/6q_upgrade && " \
+					"source 10008000 ; " \
+				"done ; " \
+			"done\0" \
+		"bootfile=_BOOT_FILE_PATH_IN_TFTP_\0" \
+		"nfsroot=_ROOTFS_PATH_IN_NFS_\0"
 
-#define	CONFIG_EXTRA_ENV_SETTINGS					\
-		"netdev=eth0\0"						\
-		"ethprime=FEC0\0"					\
-		"bootargs=console=ttymxc1,115200 init=/init rw video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 fbmem=10M vmalloc=400M androidboot.console=ttymxc1\0" 								     \
-		"bootcmd=booti mmc1\0"
+
 #define CONFIG_ARP_TIMEOUT	200UL
 
 /*
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_PROMPT		"MX6Q SABRELITE U-Boot > "
+#define CONFIG_SYS_PROMPT		"MX6Q MARSBOARD U-Boot > "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
 /* Print Buffer Size */
@@ -191,7 +195,10 @@
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_PING
 #define CONFIG_IPADDR			192.168.1.103
-#define CONFIG_SERVERIP			192.168.1.101
+
+/*The IP ADDRESS of SERVERIP*/
+#define CONFIG_SERVERIP			_SERVER_IP_ADDR_
+
 #define CONFIG_NETMASK			255.255.255.0
 
 /*
@@ -227,6 +234,13 @@
 	#define MAX_SPI_BYTES		(64 * 4)
 #endif
 
+/* Regulator Configs */
+#ifdef CONFIG_CMD_REGUL
+	#define CONFIG_ANATOP_REGULATOR
+	#define CONFIG_CORE_REGULATOR_NAME "vdd1p1"
+	#define CONFIG_PERIPH_REGULATOR_NAME "vdd1p1"
+#endif
+
 /*
  * MMC Configs
  */
@@ -258,6 +272,10 @@
 	#define CONFIG_DWC_AHSATA_BASE_ADDR	SATA_ARB_BASE_ADDR
 	#define CONFIG_LBA48
 	#define CONFIG_LIBATA
+
+	#define CONFIG_DOS_PARTITION	1
+	#define CONFIG_CMD_FAT		1
+	#define CONFIG_CMD_EXT2		1
 #endif
 
 /*-----------------------------------------------------------------------

@@ -3340,14 +3340,11 @@ mx6q_sabrelite_android_config 		\
 mx6q_sabrelite_mfg_config   : unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_sabrelite freescale mx6
 
-mx6dl_marsboard_config			\
-mx6dl_marsboard_android_config 		\
-mx6dl_marsboard_mfg_config		\
-mx6q_marsboard_config                  	\
-mx6q_marsboard_android_config          	\
+mx6q_marsboard_config			\
+mx6q_marsboard_android_config 		\
+mx6q_marsboard_test_config		\
 mx6q_marsboard_mfg_config   : unconfig
-
-	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6dl_marsboard embest mx6
+	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_marsboard embest mx6
 
 mx6solo_sabreauto_config	\
 mx6solo_sabreauto_mfg_config	\
