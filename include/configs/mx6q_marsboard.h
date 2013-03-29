@@ -120,22 +120,18 @@
 		"ethaddr=00:01:02:03:04:05\0" \
 		"uboot=u-boot.bin\0" \
 		"kernel=uImage\0" \
-		"bootargs=console=ttymxc1,115200\0" \
-		"bootargs_base=setenv bootargs console=ttymxc1,115200\0" \
+		"bootargs=console=ttymxc1,115200 video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 		"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs " \
 			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 " \
 			"enable_wait_mode=off\0" \
-		"bootcmd_net=dhcp; run bootargs_base bootargs_nfs;bootm\0" \
+		"bootcmd_net=dhcp; run bootargs_nfs;bootm\0" \
 		"bootargs_mmc0=setenv bootargs ${bootargs} " \
-			"root=/dev/mmcblk0p1 rootwait rw " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
+			"root=/dev/mmcblk0p1 rootwait rw\0" \
 		"bootargs_mmc1=setenv bootargs ${bootargs} " \
-			"root=/dev/mmcblk1p1 rootwait rw " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
-		"bootcmd_mmc0=run bootargs_base bootargs_mmc0;mmc dev 1;" \
+			"root=/dev/mmcblk1p1 rootwait rw\0" \
+		"bootcmd_mmc0=run bootargs_mmc0;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
-		"bootcmd_mmc1=run bootargs_base bootargs_mmc1;mmc dev 1;" \
+		"bootcmd_mmc1=run bootargs_mmc1;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
 		"bootcmd=if mmc dev 0; then run bootcmd_mmc1; else run bootcmd_mmc0; fi\0" \
 		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
