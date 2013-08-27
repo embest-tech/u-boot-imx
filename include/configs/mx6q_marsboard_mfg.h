@@ -113,7 +113,7 @@
 #define CONFIG_RD_LOADADDR	0x10c00000
 
 #define CONFIG_BOOTARGS         "console=ttymxc1,115200 rdinit=/linuxrc"
-#define CONFIG_BOOTCOMMAND      "imxotp blow --force 5 0x08000030;imxotp blow --force 6 0x10;bootm 0x10800000 0x10c00000"
+#define CONFIG_BOOTCOMMAND      "bootm 0x10800000 0x10c00000"
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 		"netdev=eth0\0"						\
