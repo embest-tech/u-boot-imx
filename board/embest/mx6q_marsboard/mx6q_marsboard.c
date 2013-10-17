@@ -640,6 +640,9 @@ int mx6_rgmii_rework(char *devname, int phy_addr)
         ret = phy_write(devname, phy_addr, 0x1e, val);
         /******************************************************/
 
+        /* disable 1Gb support in u-boot */
+        ret = phy_write(devname, phy_addr, 0x9, 0x0);
+
         /*check phy power*/
         ret = phy_read(devname, phy_addr, 0x0, &val);
         if(val & BMCR_PDOWN)
