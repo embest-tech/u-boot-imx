@@ -125,15 +125,11 @@
 			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp " \
 			"enable_wait_mode=off\0" \
 		"bootcmd_net=dhcp; run bootargs_nfs;bootm\0" \
-		"bootargs_mmc0=setenv bootargs ${bootargs} " \
+		"bootargs_mmc=setenv bootargs ${bootargs} " \
 			"root=/dev/mmcblk0p1 rootwait rw\0" \
-		"bootargs_mmc1=setenv bootargs ${bootargs} " \
-			"root=/dev/mmcblk1p1 rootwait rw\0" \
-		"bootcmd_mmc0=run bootargs_mmc0;mmc dev 1;" \
+		"bootcmd_mmc=run bootargs_mmc;mmc dev 1;" \
 			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
-		"bootcmd_mmc1=run bootargs_mmc1;mmc dev 1;" \
-			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
-		"bootcmd=if mmc dev 0; then run bootcmd_mmc1; else run bootcmd_mmc0; fi\0" \
+		"bootcmd=run bootcmd_mmc\0" \
 		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
 			"echo restored environment to factory default\0" \
 		"upgradeu=for disk in 0 1 ; do mmc dev ${disk} ;" \
