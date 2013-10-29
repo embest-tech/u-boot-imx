@@ -3339,6 +3339,7 @@ mx6q_sabresd_iram_config	: unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_sabresd freescale mx6
 
 mx6solo_riot_config                  \
+mx6solo_riot_android_config	     \
 mx6solo_riot_mfg_config	: unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_riot freescale mx6
 
