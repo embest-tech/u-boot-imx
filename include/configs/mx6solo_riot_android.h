@@ -74,8 +74,6 @@
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 		"netdev=eth0\0"						\
 		"ethprime=FEC0\0"					\
-		"fastboot_dev=mmc3\0"					\
-		"bootcmd=booti mmc3\0"					\
 		"bootargs=console=ttymxc1,115200 init=/init nosmp "	\
 		"vmalloc=400M androidboot.console=ttymxc1 "	\
 		"androidboot.hardware=freescale\0"			\
