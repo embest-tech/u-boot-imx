@@ -75,7 +75,9 @@
 		"netdev=eth0\0"						\
 		"ethprime=FEC0\0"					\
 		"bootargs=console=ttymxc1,115200 init=/init nosmp "	\
-		"vmalloc=400M androidboot.console=ttymxc1 "	\
+		"video=mxcfb0:dev=hdmi,1280x720M@60,bpp=32 "		\
+		"video=mxcfb1:off fbmem=10M "				\
+		"vmalloc=400M androidboot.console=ttymxc1 "		\
 		"androidboot.hardware=freescale\0"			\
 		"splashimage=0x1D000000\0"				\
 		"splashpos=m,m\0"					\
