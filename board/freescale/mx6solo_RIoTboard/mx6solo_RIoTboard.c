@@ -1732,7 +1732,7 @@ int board_init(void)
 	fsl_set_system_rev();
 
 	/* board id for linux */
-	gd->bd->bi_arch_number = MACH_TYPE_MX6Q_RIOT;
+	gd->bd->bi_arch_number = MACH_TYPE_MX6SOLO_RIoTboard;
 
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM_1 + 0x100;
