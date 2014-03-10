@@ -19,11 +19,11 @@
  * MA 02111-1307 USA
  */
 
-#ifndef MX6SOLO_RIOT_ANDROID_H
-#define MX6SOLO_RIOT_ANDROID_H
+#ifndef MX6SOLO_RIoTboard_ANDROID_H
+#define MX6SOLO_RIoTboard_ANDROID_H
 
 #include <asm/arch/mx6.h>
-#include "mx6solo_riot.h"
+#include "mx6solo_RIoTboard.h"
 
 #define CONFIG_USB_DEVICE
 #define CONFIG_IMX_UDC		       1
