@@ -21,7 +21,7 @@
 # MA 02111-1307 USA
 #
 
-CROSS_COMPILE ?= arm-eabi-
+CROSS_COMPILE ?= arm-fsl-linux-gnueabi-
 
 PLATFORM_CPPFLAGS += -DCONFIG_ARM -D__ARM__
 
