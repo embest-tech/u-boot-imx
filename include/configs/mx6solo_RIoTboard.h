@@ -121,14 +121,16 @@
 	"uboot=u-boot.bin\0"						\
 	"kernel=uImage\0"						\
 	"nfsroot=/opt/eldk/arm\0"					\
-	"bootargs=console=ttymxc1,115200 nosmp\0"	\
+	"bootargs=console=ttymxc1,115200 nosmp "			\
+	"video=mxcfb0:dev=hdmi,1280x720M@60,bpp=32 "			\
+	"video=mxcfb1:off fbmem=10M\0"					\
 	"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs "	\
 		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0"	\
-	"bootcmd_net=run bootargs_nfs; "			\
+	"bootcmd_net=run bootargs_nfs; "				\
 		"tftpboot ${loadaddr} ${kernel}; bootm\0"		\
-	"bootargs_mmc=setenv bootargs ${bootargs} "		\
+	"bootargs_mmc=setenv bootargs ${bootargs} "			\
 		"root=/dev/mmcblk0p1 rootwait\0"			\
-	"bootcmd_mmc=run bootargs_mmc; "			\
+	"bootcmd_mmc=run bootargs_mmc; "				\
 	"mmc dev 3; "							\
 	"mmc read ${loadaddr} 0x800 0x2000; bootm\0"			\
 	"bootcmd=run bootcmd_mmc\0"					\
