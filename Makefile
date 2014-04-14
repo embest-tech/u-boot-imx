@@ -3345,7 +3345,8 @@ mx6solo_RIoTboard_mfg_config	: unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6solo_RIoTboard freescale mx6
 
 mx6q_marsboard_config                   \
-mx6q_marsboard_android_config           \
+mx6q_marsboard_android_emmc_config      \
+mx6q_marsboard_android_tf_config        \
 mx6q_marsboard_mfg_config   : unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_marsboard embest mx6
 
