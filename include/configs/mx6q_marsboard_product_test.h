@@ -25,6 +25,7 @@
 #include <asm/arch/mx6.h>
 
  /* High Level Configuration Options */
+#define CONFIG_MFG
 #define CONFIG_ARMV7	/* This is armv7 Cortex-A9 CPU core */
 #define CONFIG_MXC
 #define CONFIG_MX6Q
@@ -97,7 +98,6 @@
 #define CONFIG_CMD_MMC
 #define CONFIG_CMD_SF
 #define CONFIG_CMD_ENV
-#define CONFIG_CMD_REGUL
 
 #define CONFIG_CMD_CLOCK
 #define CONFIG_REF_CLK_FREQ CONFIG_MX6_HCLK_FREQ
@@ -105,46 +105,21 @@
 #define CONFIG_CMD_SATA
 #undef CONFIG_CMD_IMLS
 
-#define CONFIG_CMD_IMX_DOWNLOAD_MODE
-
-#define CONFIG_BOOTDELAY 3
+#define CONFIG_BOOTDELAY 0
 
 #define CONFIG_PRIME	"FEC0"
 
 #define CONFIG_LOADADDR		0x10800000	/* loadaddr env var */
-#define CONFIG_RD_LOADADDR      0x11000000
+#define CONFIG_RD_LOADADDR	0x10c00000
 
-#define	CONFIG_EXTRA_ENV_SETTINGS \
-		"netdev=eth0\0" \
-		"ethprime=FEC0\0" \
-		"ethaddr=00:01:02:03:04:05\0" \
-		"uboot=u-boot.bin\0" \
-		"kernel=uImage\0" \
-		"bootargs=console=ttymxc1,115200 consoleblank=0\0" \
-		"bootargs_nfs=setenv bootargs ${bootargs} root=/dev/nfs " \
-			"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp " \
-			"video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 " \
-			"enable_wait_mode=off\0" \
-		"bootcmd_net=dhcp; run bootargs_base bootargs_nfs;bootm\0" \
-		"bootargs_mmc=setenv bootargs ${bootargs} " \
-			"root=/dev/mmcblk0p1 rootwait rw " \
-			"video=mxcfb0:dev=lcd,4.3inch_LCD,if=RGB24 " \
-			"video=mxcfb1:dev=hdmi,1920x1080M@60,if=RGB24\0" \
-		"bootcmd_mmc=run bootargs_mmc;mmc dev 1;" \
-			"mmc read ${loadaddr} 0x800 0x2000;bootm\0" \
-		"bootcmd=run bootcmd_mmc\0" \
-		"clearenv=sf probe 0 && sf erase 0xc0000 0x2000 && " \
-			"echo restored environment to factory default\0" \
-		"upgradeu=for disk in 0 1 ; do mmc dev ${disk} ;" \
-				"for fs in fat ext2 ; do " \
-					"${fs}load mmc ${disk}:1 10008000 " \
-						"/6q_upgrade && " \
-					"source 10008000 ; " \
-				"done ; " \
-			"done\0" \
-		"bootfile=_BOOT_FILE_PATH_IN_TFTP_\0" \
-		"nfsroot=_ROOTFS_PATH_IN_NFS_\0"
+#define CONFIG_BOOTARGS         "console=ttymxc1,115200 rdinit=/linuxrc"
+#define CONFIG_BOOTCOMMAND      "imxotp blow --force 5 0x08000030;imxotp blow --force 6 0x10;bootm 0x10800000 0x10c00000"
 
+#define	CONFIG_EXTRA_ENV_SETTINGS					\
+		"netdev=eth0\0"						\
+		"ethprime=FEC0\0"					\
+		"uboot=u-boot.bin\0"			\
+		"kernel=uImage\0"				\
 
 #define CONFIG_ARP_TIMEOUT	200UL
 
@@ -152,7 +127,7 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_PROMPT		"MX6Q MARSBOARD U-Boot > "
+#define CONFIG_SYS_PROMPT		"MX6Q MARSBOARD-MFG U-Boot > "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
 /* Print Buffer Size */
@@ -188,10 +163,7 @@
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_PING
 #define CONFIG_IPADDR			192.168.1.103
-
-/*The IP ADDRESS of SERVERIP*/
-#define CONFIG_SERVERIP			_SERVER_IP_ADDR_
-
+#define CONFIG_SERVERIP			192.168.1.101
 #define CONFIG_NETMASK			255.255.255.0
 
 /*
@@ -227,13 +199,6 @@
 	#define MAX_SPI_BYTES		(64 * 4)
 #endif
 
-/* Regulator Configs */
-#ifdef CONFIG_CMD_REGUL
-	#define CONFIG_ANATOP_REGULATOR
-	#define CONFIG_CORE_REGULATOR_NAME "vdd1p1"
-	#define CONFIG_PERIPH_REGULATOR_NAME "vdd1p1"
-#endif
-
 /*
  * MMC Configs
  */
@@ -265,10 +230,6 @@
 	#define CONFIG_DWC_AHSATA_BASE_ADDR	SATA_ARB_BASE_ADDR
 	#define CONFIG_LBA48
 	#define CONFIG_LIBATA
-
-	#define CONFIG_DOS_PARTITION	1
-	#define CONFIG_CMD_FAT		1
-	#define CONFIG_CMD_EXT2		1
 #endif
 
 /*-----------------------------------------------------------------------
@@ -295,26 +256,10 @@
 /* Monitor at beginning of flash */
 /* #define CONFIG_FSL_ENV_IN_MMC */
 /* #define CONFIG_FSL_ENV_IN_SATA */
-#define CONFIG_FSL_ENV_IN_SF
+/* #define CONFIG_FSL_ENV_IN_SF */
 
-#define CONFIG_ENV_SECT_SIZE    (8 * 1024)
+#define CONFIG_ENV_SECT_SIZE    (128 * 1024)
 #define CONFIG_ENV_SIZE         CONFIG_ENV_SECT_SIZE
+#define CONFIG_ENV_IS_NOWHERE	1
 
-#if defined(CONFIG_FSL_ENV_IN_NAND)
-	#define CONFIG_ENV_IS_IN_NAND 1
-	#define CONFIG_ENV_OFFSET	0x100000
-#elif defined(CONFIG_FSL_ENV_IN_MMC)
-	#define CONFIG_ENV_IS_IN_MMC	1
-	#define CONFIG_ENV_OFFSET	(768 * 1024)
-#elif defined(CONFIG_FSL_ENV_IN_SATA)
-	#define CONFIG_ENV_IS_IN_SATA   1
-	#define CONFIG_SATA_ENV_DEV     0
-	#define CONFIG_ENV_OFFSET       (768 * 1024)
-#elif defined(CONFIG_FSL_ENV_IN_SF)
-	#define CONFIG_ENV_IS_IN_SPI_FLASH	1
-	#define CONFIG_ENV_SPI_CS		0
-	#define CONFIG_ENV_OFFSET       (768 * 1024)
-#else
-	#define CONFIG_ENV_IS_NOWHERE	1
-#endif
 #endif				/* __CONFIG_H */

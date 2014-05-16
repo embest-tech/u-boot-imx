@@ -3344,6 +3344,7 @@ mx6q_marsboard_emmc_config		\
 mx6q_marsboard_tf_config		\
 mx6q_marsboard_android_config 		\
 mx6q_marsboard_test_config		\
+mx6q_marsboard_product_test_config	\
 mx6q_marsboard_mfg_config   : unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_marsboard embest mx6
 
