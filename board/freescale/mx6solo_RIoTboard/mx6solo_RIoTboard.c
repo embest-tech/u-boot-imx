@@ -184,10 +184,6 @@ iomux_v3_cfg_t const usdhc4_pads[] = {
 	MX6_PAD_SD4_DAT1__USDHC4_DAT1 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD4_DAT2__USDHC4_DAT2 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD4_DAT3__USDHC4_DAT3 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_SD4_DAT4__USDHC4_DAT4 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_SD4_DAT5__USDHC4_DAT5 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_SD4_DAT6__USDHC4_DAT6 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_SD4_DAT7__USDHC4_DAT7 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 };
 
 #if defined(CONFIG_MX6DL) && defined(CONFIG_MXC_EPDC)
@@ -1043,6 +1039,20 @@ static const struct boot_mode board_boot_modes[] = {
 int board_late_init(void)
 {
 	int ret = 0;
+
+    switch (get_boot_device()) {
+    case SD2_BOOT:
+    case MMC2_BOOT:
+            setenv("mmcroot", "/dev/mmcblk1p2");
+        break;
+    case MMC4_BOOT:
+            setenv("mmcroot", "/dev/mmcblk0p2");
+        break;
+    default:
+		printf("unsupported boot devices\n");
+        break;
+    }
+
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif

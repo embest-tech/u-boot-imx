@@ -20,7 +20,7 @@
 #define CONFIG_MACH_TYPE	4000
 #define CONFIG_MXC_UART_BASE	UART2_BASE
 #define CONFIG_CONSOLE_DEV		"ttymxc1"
-#define CONFIG_MMCROOT			"/dev/mmcblk0p1"
+#define CONFIG_MMCROOT			"/dev/mmcblk0p2"
 
 #include "mx6qsabre_common.h"
 #include <asm/arch/imx-regs.h>
