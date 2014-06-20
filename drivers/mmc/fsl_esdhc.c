@@ -357,7 +357,7 @@ esdhc_send_cmd(struct mmc *mmc, struct mmc_cmd *cmd, struct mmc_data *data)
 
 	if (irqstat & IRQSTAT_CTOE)
 		return TIMEOUT;
-
+#if 0
 	/* Workaround for ESDHC errata ENGcm03648 */
 	if (!data && (cmd->resp_type & MMC_RSP_BUSY)) {
 		int timeout = 2500;
@@ -374,7 +374,7 @@ esdhc_send_cmd(struct mmc *mmc, struct mmc_cmd *cmd, struct mmc_data *data)
 			return TIMEOUT;
 		}
 	}
-
+#endif
 	/* Copy the response to the response buffer */
 	if (cmd->resp_type & MMC_RSP_136) {
 		u32 cmdrsp3, cmdrsp2, cmdrsp1, cmdrsp0;
