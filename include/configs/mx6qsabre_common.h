@@ -196,7 +196,7 @@
 	"video=mxcfb0:dev=hdmi,1280x720M@60,bpp=32 "            \
 	"video=mxcfb1:off fbmem=10M\0" \
 	"mmcargs=setenv bootargs ${bootargs} " \
-		"root=${mmcroot} rootwait rw\0" \
+		"root=${mmcroot} rootwait rw consoleblank=0\0" \
 	"loadbootscript=" \
 		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
