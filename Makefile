@@ -3337,6 +3337,7 @@ mx6q_sabresd_iram_config	: unconfig
 
 mx6q_sabrelite_config			\
 mx6q_sabrelite_android_config 		\
+mx6q_sabrelite_product_config	\
 mx6q_sabrelite_mfg_config   : unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_sabrelite freescale mx6
 
