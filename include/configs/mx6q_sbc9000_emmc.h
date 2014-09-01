@@ -168,7 +168,7 @@
 	"ip_dyn=yes\0" \
 	"mmcdev=1\0" \
 	"mmcpart=1\0" \
-	"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 video=mxcfb1:off\0" \
+	"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 	"mmcroot=/dev/mmcblk0p2 rootwait rw\0" \
 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
 		"consoleblank=${consoleblank} " \

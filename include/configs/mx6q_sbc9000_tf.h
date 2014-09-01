@@ -168,7 +168,7 @@
 	"ip_dyn=yes\0" \
 	"mmcdev=0\0" \
 	"mmcpart=1\0" \
-	"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 video=mxcfb1:off\0" \
+	"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24\0" \
 	"mmcroot=/dev/mmcblk1p2 rootwait rw\0" \
 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
 		"consoleblank=${consoleblank} " \
@@ -180,7 +180,7 @@
 		"source\0" \
 	"loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
 	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-	"clearenv=mmc dev 1; mmc erase 0x400 0x400; \0" \
+	"clearenv=mmc dev 0; mmc write 11000000 0x400 0x10; \0" \
 	"mmcboot=echo Booting from mmc ...; " \
 		"run mmcargs; " \
 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
@@ -278,7 +278,7 @@
 
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_ENV_OFFSET		(512 * 1024)
-#define CONFIG_SYS_MMC_ENV_DEV		1
+#define CONFIG_SYS_MMC_ENV_DEV		0
 #elif defined(CONFIG_ENV_IS_IN_SPI_FLASH)
 #define CONFIG_ENV_OFFSET		(768 * 1024)
 #define CONFIG_ENV_SECT_SIZE		(8 * 1024)
