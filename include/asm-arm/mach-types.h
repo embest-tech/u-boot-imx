@@ -3257,6 +3257,7 @@ extern unsigned int __machine_arch_type;
 #define MACH_TYPE_MX6Q_SABREAUTO       3529
 #define MACH_TYPE_MX6Q_SABRELITE       3769
 #define MACH_TYPE_MX6Q_MARSBOARD       3770
+#define MACH_TYPE_MX6Q_SBC9000         3771
 #define MACH_TYPE_MX6Q_ARM2            3837
 #define MACH_TYPE_MX6Q_SABRESD	       3980
 #define MACH_TYPE_MX6SOLO_RIoTboard    4000

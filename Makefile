@@ -3350,6 +3350,13 @@ mx6q_marsboard_android_tf_config        \
 mx6q_marsboard_mfg_config   : unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_marsboard embest mx6
 
+mx6q_sbc9000_tf_config                   \
+mx6q_sbc9000_emmc_config                   \
+mx6q_sbc9000_android_emmc_config      \
+mx6q_sbc9000_android_tf_config        \
+mx6q_sbc9000_mfg_config   : unconfig
+	@$(MKCONFIG) $(@:_config=) arm arm_cortexa8 mx6q_sbc9000 embest mx6
+
 mx6q_sabrelite_config			\
 mx6q_sabrelite_android_config 		\
 mx6q_sabrelite_mfg_config   : unconfig
