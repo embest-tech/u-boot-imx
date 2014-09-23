@@ -108,6 +108,13 @@
 #define CONFIG_PHYLIB
 #define CONFIG_PHY_ATHEROS
 
+#define CONFIG_NETMASK           255.255.255.0
+#define CONFIG_IPADDR           192.168.1.102
+#define CONFIG_SERVERIP         _SERVER_IP_ADDR_
+#define CONFIG_GATEWAYIP        _GATEWAY_IP_ADDR_
+
+
+
 /* USB Configs */
 #define CONFIG_CMD_USB
 #define CONFIG_CMD_FAT
@@ -158,7 +165,6 @@
 	"script=boot.scr\0" \
 	"uimage=uImage\0" \
 	"console=ttymxc1\0" \
-	"ethaddr=00:01:02:03:04:05\0" \
 	"fdt_high=0xffffffff\0" \
 	"initrd_high=0xffffffff\0" \
 	"fdt_file=imx6q-sbc9000.dtb\0" \

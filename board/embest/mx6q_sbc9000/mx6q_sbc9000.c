@@ -356,8 +356,21 @@ int mx6_rgmii_rework(struct phy_device *phydev)
         /* introduce tx clock delay */
         phy_write(phydev, MDIO_DEVAD_NONE, 0x1d, 0x5);
         val = phy_read(phydev, MDIO_DEVAD_NONE, 0x1e);
-        val |= 0x0100;
-        phy_write(phydev, MDIO_DEVAD_NONE, 0x1e, val);
+	val |= 0x0100;
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x1e, val);
+
+	/* rgmii gtx clock delay */
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x1d, 0xb);
+	val = phy_read(phydev, MDIO_DEVAD_NONE, 0x1e);
+	val &= ~0x60;
+	val |= 0x20;
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x1e, val);
+
+	/*check phy power*/
+	val = phy_read(phydev, MDIO_DEVAD_NONE, 0x0);
+	if(val & BMCR_PDOWN)
+		phy_write(phydev, MDIO_DEVAD_NONE, 0x0, (val & ~BMCR_PDOWN));
+
 
         return 0;
 }
