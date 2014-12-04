@@ -157,7 +157,7 @@
         "console=ttymxc1\0" \
         "baudrate=115200\0" \
 		"mmcroot=init=/init rw\0" \
-		"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 video=mxcfb1:off fbmem=10M vmalloc=400M androidboot.console=ttymxc1 androidboot.hardware=freescale\0" \
+		"dispmode=video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 video=mxcfb1:off fbmem=40M vmalloc=400M androidboot.console=ttymxc1 androidboot.hardware=freescale\0" \
         "mmcargs=setenv bootargs console=${console},${baudrate} " \
                 "${mmcroot} " \
                 "${dispmode} \0" \
