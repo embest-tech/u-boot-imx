@@ -849,7 +849,7 @@ static ulong mem_test_alt(vu_long *buf, ulong start_addr, ulong end_addr,
 		addr[offset] = 0;
 	}
 
-	return 0;
+	return errs;
 }
 
 static ulong mem_test_quick(vu_long *buf, ulong start_addr, ulong end_addr,
@@ -908,7 +908,7 @@ static ulong mem_test_quick(vu_long *buf, ulong start_addr, ulong end_addr,
 		val += incr;
 	}
 
-	return 0;
+	return errs;
 }
 
 /*

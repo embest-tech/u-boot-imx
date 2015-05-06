@@ -38,6 +38,10 @@
 #endif
 #endif /*CONFIG_FASTBOOT*/
 
+#if defined(CONFIG_STATUS_LED)
+#include <status_led.h>
+#endif /* CONFIG_STATUS_LED */
+
 DECLARE_GLOBAL_DATA_PTR;
 
 #define UART_PAD_CTRL  (PAD_CTL_PKE | PAD_CTL_PUE |		\
@@ -748,6 +752,10 @@ int board_init(void)
 #ifdef	CONFIG_MXC_EPDC
 	setup_epdc();
 #endif
+
+#if defined(CONFIG_STATUS_LED)
+	__led_init(0, 0);
+#endif
 	return 0;
 }
 
@@ -926,3 +934,29 @@ int board_ehci_hcd_init(int port)
 	return 0;
 }
 #endif
+
+#if defined(CONFIG_STATUS_LED)
+
+#define GPIO_NR_DEBUG_LED	IMX_GPIO_NR(3, 20)
+static iomux_v3_cfg_t const debug_led_pads[] = {
+	MX6_PAD_HSIC_STROBE__GPIO3_IO20 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+};
+
+void __led_init(led_id_t regaddr, int state)
+{
+	imx_iomux_v3_setup_multiple_pads(debug_led_pads, ARRAY_SIZE(debug_led_pads));
+	gpio_direction_output(GPIO_NR_DEBUG_LED, state);
+}
+
+void __led_set(led_id_t regaddr, int state)
+{
+	gpio_set_value(GPIO_NR_DEBUG_LED, (state == STATUS_LED_ON));
+}
+
+void __led_toggle(led_id_t regaddr)
+{
+	gpio_set_value(GPIO_NR_DEBUG_LED, !gpio_get_value(GPIO_NR_DEBUG_LED));
+}
+
+#endif /* CONFIG_STATUS_LED */
+

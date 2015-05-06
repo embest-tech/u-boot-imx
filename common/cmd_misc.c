@@ -25,6 +25,7 @@
  * Misc functions
  */
 #include <common.h>
+#include <div64.h>
 #include <command.h>
 
 static int do_sleep(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
@@ -62,12 +63,15 @@ static int do_timer(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	if (argc != 2)
 		return CMD_RET_USAGE;
 
-	if (!strcmp(argv[1], "start"))
+	if (!strcmp(argv[1], "start")) {
 		start = get_timer(0);
+		setenv_hex("timer", 0);
+	}
 
 	if (!strcmp(argv[1], "get")) {
-		ulong msecs = get_timer(start) * 1000 / CONFIG_SYS_HZ;
+		ulong msecs = lldiv(get_timer(start) * 1000ULL, CONFIG_SYS_HZ);
 		printf("%ld.%03d\n", msecs / 1000, (int)(msecs % 1000));
+		setenv_hex("timer", msecs);
 	}
 
 	return 0;

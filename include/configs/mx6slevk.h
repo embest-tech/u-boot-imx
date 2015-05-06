@@ -106,6 +106,34 @@
 #define CONFIG_LOADADDR			0x80800000
 #define CONFIG_SYS_TEXT_BASE		0x87800000
 
+#define CONFIG_AGING_ENV_SETTINGS				\
+	"ag_args=setenv ag_mins 0xF0; "				\
+		"setenv ag_addr 0x80000000; "			\
+		"setenv ag_endaddr 0xB9000000; "		\
+		"setenv ag_step 0x4000000; \0"			\
+	"ag_init=run ag_args; setexpr ag_secs $ag_mins * 0x3C; setenv ag_err 0; \0"	\
+	"ag_once=setenv li $ag_addr; "				\
+		"while itest $li < $ag_endaddr && itest \"$ag_err\" == 0; do "		\
+			"setexpr le $li + $ag_step; "		\
+			"if mtest $li $le 0 1; "		\
+				"then true; "			\
+				"else setenv ag_err 1; "	\
+			"fi; "					\
+			"setexpr li $li + $ag_step; "		\
+			"led all toggle; "			\
+		"done; \0"					\
+	"ag_sleep=timer start; while itest $timer < 0x32; do timer get; done; \0"	\
+	"ag_flash=while true; do led all toggle; run ag_sleep; done; \0"		\
+	"ag_fail=led all on; while true; do true; done; \0"				\
+	"ag_done=if itest \"$ag_err\" == 0; then run ag_flash; else run ag_fail; fi; \0"\
+	"ag_main=run ag_init; "								\
+		"timer start; setenv lt 0; "						\
+		"while itest $lt < $ag_secs && itest \"$ag_err\" == 0; do "		\
+			"run ag_once; "				\
+			"timer get; setexpr lt $timer / 0x3E8; "\
+		"done; "					\
+		"run ag_done; \0"
+
 #define CONFIG_MFG_ENV_SETTINGS \
 	"mfgtool_args=setenv bootargs console=${console},${baudrate} " \
 		"rdinit=/linuxrc " \
@@ -118,6 +146,7 @@
 	"bootcmd_mfg=run mfgtool_args;bootm ${loadaddr} ${initrd_addr} ${fdt_addr};\0" \
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
+	CONFIG_AGING_ENV_SETTINGS \
 	CONFIG_MFG_ENV_SETTINGS \
 	"script=boot.scr\0" \
 	"uimage=uImage\0" \
@@ -190,7 +219,8 @@
 			   "else run netboot; " \
 			   "fi; " \
 		   "fi; " \
-	   "else run netboot; fi"
+	   "else run ag_main; fi"
+//	   "else run netboot; fi"
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP
@@ -317,5 +347,15 @@
 #if defined(CONFIG_ANDROID_SUPPORT)
 #include "mx6slevkandroid.h"
 #endif
+
+#define CONFIG_CMD_LED
+#define CONFIG_STATUS_LED
+#define CONFIG_BOARD_SPECIFIC_LED
+#define STATUS_LED_BIT		0
+#define STATUS_LED_PERIOD	(CONFIG_SYS_HZ / 2)
+#define STATUS_LED_STATE	STATUS_LED_ON
+#define CONFIG_CMD_SETEXPR
+#define CONFIG_CMD_GETTIME
+#define CONFIG_CMD_TIMER
 
 #endif				/* __CONFIG_H */
